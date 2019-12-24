@@ -37,37 +37,41 @@ class MyLoadPage extends StatefulWidget {
  */
 
 class _MyLoadPageState extends State<MyLoadPage> {
-  final TextEditingController _money_controller = new TextEditingController();
-  final TextEditingController _time_controller = new TextEditingController();
-  final TextEditingController _rate_controller = new TextEditingController();
+  final TextEditingController moneyController = new TextEditingController();
+  final TextEditingController timeController = new TextEditingController();
+  final TextEditingController rateController = new TextEditingController();
 
-  SpnnerControl _time_control=new SpnnerControl();
-  SpnnerControl _rate_ctrl=new SpnnerControl();
+
+
+
+  SpnnerControl spnnerTimeControl=new SpnnerControl();
+  SpnnerControl spnnerRateCtrl=new SpnnerControl();
 
   bool isCanInputRateMomey = false;
   double rateMoney = 0;
+  String displayDetail="";
 
   void checkAndCalc(TapUpDetails details) {
-    if (_money_controller.text.isEmpty) {
+    if (moneyController.text.isEmpty) {
       showTaost("金额不能为空");
       return null;
     }
 
-    if(_time_controller.text.isEmpty){
+    if(timeController.text.isEmpty){
       showTaost("时间不能为空");
       return null;
     }
 
-    if(_rate_controller.text.isEmpty){
+    if(rateController.text.isEmpty){
       showTaost("利息不能为空");
       return null;
     }
 
-    double money=double.parse(_money_controller.text);
+    double money=double.parse(moneyController.text);
 
-    int time=int.parse(_time_controller.text);
+    int time=int.parse(timeController.text);
 
-    double rate=double.parse(_rate_controller.text);
+    double rate=double.parse(rateController.text);
 
 
     int rateType=RATE.YEAR;
@@ -75,17 +79,17 @@ class _MyLoadPageState extends State<MyLoadPage> {
 
     int timeType=TIME.YEAR;
 
-    if("月"==_rate_ctrl.value){
+    if("月"==spnnerTimeControl.value){
       timeType=TIME.MONTH;
-    }else if("日" == _rate_ctrl.value){
+    }else if("日" == spnnerTimeControl.value){
       timeType=TIME.DAY;
     }else{
       timeType=TIME.YEAR;
     }
 
-    if("月息"==_rate_ctrl.value){
+    if("月息"==spnnerRateCtrl.value){
       rateType=RATE.MONTH;
-    }else if("日息" == _rate_ctrl.value){
+    }else if("日息" == spnnerRateCtrl.value){
       rateType=RATE.DAY;
     }else{
       rateType=RATE.YEAR;
@@ -96,6 +100,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
 
     setState(() {
       rateMoney=info.interestTotal;
+      displayDetail=info.toString();
     });
 
 
@@ -103,6 +108,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
 
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +132,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         child: TextField(
                           obscureText: false,
                           //是否是密码
-                          controller: _money_controller,
+                          controller: moneyController,
                           keyboardType: TextInputType.number,
                           //数字输入
 
@@ -147,7 +153,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         child: TextField(
                           obscureText: false,
                           //是否是密码
-                          controller: _time_controller,
+                          controller: timeController,
                           keyboardType: TextInputType.number,
                           //数字输入
 
@@ -156,7 +162,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      SizedBox(width: 80, child: DateDropDown(_time_control))
+                      SizedBox(width: 80, child: DateDropDown(spnnerTimeControl))
                     ],
                   )),
               SizedBox(height: 16),
@@ -168,7 +174,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         child: TextField(
                           obscureText: false,
                           //是否是密码
-                          controller: _rate_controller,
+                          controller: rateController,
                           keyboardType: TextInputType.number,
                           //数字输入
 
@@ -177,7 +183,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      SizedBox(width: 80, child: RateDropDown(_rate_ctrl)),
+                      SizedBox(width: 80, child: RateDropDown(spnnerRateCtrl)),
                     ],
                   )),
               SizedBox(height: 16),
@@ -186,10 +192,14 @@ class _MyLoadPageState extends State<MyLoadPage> {
                     height: 48,
                     child: Row(
                       children: <Widget>[
+
+                        SizedBox(width: 60, child: Align( alignment: Alignment.centerLeft,child: Text("总利息:",style: TextStyle(color: Colors.black45)))),
                         Expanded(
+
                           child: TextField(
                             obscureText: false,
                             //是否是密码
+
 
                             keyboardType: TextInputType.number,
                             //数字输入
@@ -201,7 +211,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                           ),
                         ),
                         SizedBox(width: 10),
-                        SizedBox(width: 80, child: Center(child: Text("单位(元)")))
+                        SizedBox(width: 80, child: Center(child: Text(" 单位(元)")))
                       ],
                     )),
                 onLongPress: () {
@@ -212,6 +222,23 @@ class _MyLoadPageState extends State<MyLoadPage> {
                 },
               ),
               SizedBox(height: 16),
+
+
+             new  InkWell(
+
+                onTap: (){
+//                  Scaffold.of(context).showSnackBar(new SnackBar(content: Text("测试")));
+                }
+                ,child: Container(
+
+                padding: EdgeInsets.all(12),
+                child: Text("33"),
+              ),
+
+
+              ),
+
+
               GestureDetector(
                 child: Container(
                     color: Colors.deepOrange,
@@ -231,6 +258,10 @@ class _MyLoadPageState extends State<MyLoadPage> {
 
                 onTapUp: checkAndCalc,
               ),
+
+              SizedBox(height: 16),
+              SizedBox(height: 150,child: SingleChildScrollView(child:  Text("$displayDetail")))
+
             ]),
       ),
     );

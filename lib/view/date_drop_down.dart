@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:loan_calc/ctrl/SpnnerControl.dart';
 
-class DateDropDown extends StatefulWidget {
+@immutable
+ class DateDropDown extends StatefulWidget {
 
 
-  SpnnerControl control;
+ final SpnnerControl control;
 
   DateDropDown( this.control);
 

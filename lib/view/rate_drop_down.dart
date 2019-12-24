@@ -3,7 +3,7 @@ import 'package:loan_calc/ctrl/SpnnerControl.dart';
 
 class RateDropDown extends StatefulWidget {
 
-  SpnnerControl control;
+ final SpnnerControl control;
 
   RateDropDown(this.control);
 
