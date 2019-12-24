@@ -6,6 +6,7 @@ import 'package:loan_calc/utils/ToastUtils.dart';
 import 'package:loan_calc/utils/calc.dart';
 import 'package:loan_calc/view/date_drop_down.dart';
 import 'package:loan_calc/view/rate_drop_down.dart';
+import 'package:loan_calc/utils/Utils.dart';
 
 class LoanActivity extends StatelessWidget {
   @override
@@ -49,6 +50,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
   String displayDetail = "";
 
   void checkAndCalc(TapUpDetails details) {
+    Utils.closeKeybord(context);
     if (moneyController.text.isEmpty) {
       showTaost("金额不能为空");
       return null;
@@ -63,6 +65,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
       showTaost("利息不能为空");
       return null;
     }
+
 
     double money = double.parse(moneyController.text);
 

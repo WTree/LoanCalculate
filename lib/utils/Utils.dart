@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 class Utils{
 
@@ -10,6 +11,12 @@ class Utils{
 
     return numberFormat.format(number);
 
+  }
+
+
+  static void closeKeybord(BuildContext context){
+
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
 }

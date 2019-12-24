@@ -31,7 +31,7 @@ class LoandInfo{
       StringBuffer sb=new StringBuffer();
 //     sb.write("本金:"+Utils.formatNumber(baseMoney)+"元");
 //     sb.write("\n总的利息:"+ Utils.formatNumber(interestTotal)+"元");
-     sb.write("年利率:"+Utils.formatNumber(yearRate*100)+" %"+"元");
+     sb.write("年利率:"+Utils.formatNumber(yearRate*100)+" %");
      if(interestYear!=0){
        sb.write("\n一年的利息:"+Utils.formatNumber(interestYear)+"元");
      }
