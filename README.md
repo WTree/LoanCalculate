@@ -14,3 +14,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+*** 第一版本 简单的贷款利息计算 ***
+
+![image](https://github.com/WTree/LoanCalculate/raw/screenshots/device-2019-12-24-155400.png)
