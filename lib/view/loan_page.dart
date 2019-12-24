@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:loan_calc/utils/ToastUtils.dart';
-import 'package:loan_calc/view/date_drop_down.dart';
-import 'package:loan_calc/view/rate_drop_down.dart';
 import 'package:loan_calc/ctrl/SpnnerControl.dart';
 import 'package:loan_calc/member/LoanInfo.dart';
+import 'package:loan_calc/utils/ToastUtils.dart';
 import 'package:loan_calc/utils/calc.dart';
+import 'package:loan_calc/view/date_drop_down.dart';
+import 'package:loan_calc/view/rate_drop_down.dart';
 
 class LoanActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: '贷款计算器',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyLoadPage(title: "test"),
+      home: MyLoadPage(title: "贷款计算器"),
     );
   }
 }
@@ -41,15 +41,12 @@ class _MyLoadPageState extends State<MyLoadPage> {
   final TextEditingController timeController = new TextEditingController();
   final TextEditingController rateController = new TextEditingController();
 
-
-
-
-  SpnnerControl spnnerTimeControl=new SpnnerControl();
-  SpnnerControl spnnerRateCtrl=new SpnnerControl();
+  SpnnerControl spnnerTimeControl = new SpnnerControl();
+  SpnnerControl spnnerRateCtrl = new SpnnerControl();
 
   bool isCanInputRateMomey = false;
   double rateMoney = 0;
-  String displayDetail="";
+  String displayDetail = "";
 
   void checkAndCalc(TapUpDetails details) {
     if (moneyController.text.isEmpty) {
@@ -57,58 +54,49 @@ class _MyLoadPageState extends State<MyLoadPage> {
       return null;
     }
 
-    if(timeController.text.isEmpty){
+    if (timeController.text.isEmpty) {
       showTaost("时间不能为空");
       return null;
     }
 
-    if(rateController.text.isEmpty){
+    if (rateController.text.isEmpty) {
       showTaost("利息不能为空");
       return null;
     }
 
-    double money=double.parse(moneyController.text);
+    double money = double.parse(moneyController.text);
 
-    int time=int.parse(timeController.text);
+    int time = int.parse(timeController.text);
 
-    double rate=double.parse(rateController.text);
+    double rate = double.parse(rateController.text);
 
+    int rateType = RATE.YEAR;
 
-    int rateType=RATE.YEAR;
+    int timeType = TIME.YEAR;
 
-
-    int timeType=TIME.YEAR;
-
-    if("月"==spnnerTimeControl.value){
-      timeType=TIME.MONTH;
-    }else if("日" == spnnerTimeControl.value){
-      timeType=TIME.DAY;
-    }else{
-      timeType=TIME.YEAR;
+    if ("月" == spnnerTimeControl.value) {
+      timeType = TIME.MONTH;
+    } else if ("日" == spnnerTimeControl.value) {
+      timeType = TIME.DAY;
+    } else {
+      timeType = TIME.YEAR;
     }
 
-    if("月息"==spnnerRateCtrl.value){
-      rateType=RATE.MONTH;
-    }else if("日息" == spnnerRateCtrl.value){
-      rateType=RATE.DAY;
-    }else{
-      rateType=RATE.YEAR;
+    if ("月息" == spnnerRateCtrl.value) {
+      rateType = RATE.MONTH;
+    } else if ("日息" == spnnerRateCtrl.value) {
+      rateType = RATE.DAY;
+    } else {
+      rateType = RATE.YEAR;
     }
 
-
-    LoandInfo info=calc(money, rate, time, rateType, timeType);
+    LoandInfo info = calc(money, rate, time, rateType, timeType);
 
     setState(() {
-      rateMoney=info.interestTotal;
-      displayDetail=info.toString();
+      rateMoney = info.interestTotal;
+      displayDetail = info.toString();
     });
-
-
-
-
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,148 +109,129 @@ class _MyLoadPageState extends State<MyLoadPage> {
       ),
       body: Container(
         margin: EdgeInsets.only(left: 16, right: 16),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(
-                  height: 48,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          obscureText: false,
-                          //是否是密码
-                          controller: moneyController,
-                          keyboardType: TextInputType.number,
-                          //数字输入
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+            Widget>[
+          SizedBox(
+              height: 48,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      obscureText: false,
+                      //是否是密码
+                      controller: moneyController,
+                      keyboardType: TextInputType.number,
+                      //数字输入
 
 //                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                          decoration: InputDecoration(hintText: "贷款金额"),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SizedBox(width: 80, child: Center(child: Text("单位(元)")))
-                    ],
-                  )),
-              SizedBox(height: 16),
-              SizedBox(
-                  height: 48,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          obscureText: false,
-                          //是否是密码
-                          controller: timeController,
-                          keyboardType: TextInputType.number,
-                          //数字输入
-
-//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                          decoration: InputDecoration(hintText: "输入贷款时间"),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SizedBox(width: 80, child: DateDropDown(spnnerTimeControl))
-                    ],
-                  )),
-              SizedBox(height: 16),
-              SizedBox(
-                  height: 48,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          obscureText: false,
-                          //是否是密码
-                          controller: rateController,
-                          keyboardType: TextInputType.number,
-                          //数字输入
-
-//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                          decoration: InputDecoration(hintText: "利率(%)"),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      SizedBox(width: 80, child: RateDropDown(spnnerRateCtrl)),
-                    ],
-                  )),
-              SizedBox(height: 16),
-              GestureDetector(
-                child: SizedBox(
-                    height: 48,
-                    child: Row(
-                      children: <Widget>[
-
-                        SizedBox(width: 60, child: Align( alignment: Alignment.centerLeft,child: Text("总利息:",style: TextStyle(color: Colors.black45)))),
-                        Expanded(
-
-                          child: TextField(
-                            obscureText: false,
-                            //是否是密码
-
-
-                            keyboardType: TextInputType.number,
-                            //数字输入
-                            enabled: isCanInputRateMomey,
-
-//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                            decoration: InputDecoration(
-                                hintText: "利息", labelText: "$rateMoney"),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        SizedBox(width: 80, child: Center(child: Text(" 单位(元)")))
-                      ],
-                    )),
-                onLongPress: () {
-                  print(("长按事件"));
-                  setState(() {
-                    isCanInputRateMomey = true;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
-
-
-             new  InkWell(
-
-                onTap: (){
-//                  Scaffold.of(context).showSnackBar(new SnackBar(content: Text("测试")));
-                }
-                ,child: Container(
-
-                padding: EdgeInsets.all(12),
-                child: Text("33"),
-              ),
-
-
-              ),
-
-
-              GestureDetector(
-                child: Container(
-                    color: Colors.deepOrange,
-                    child: SizedBox(
-                      width: 200,
-                      height: 56,
-                      child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "计算",
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
+                      decoration: InputDecoration(hintText: "贷款金额"),
                     ),
+                  ),
+                  SizedBox(width: 10),
+                  SizedBox(width: 80, child: Center(child: Text("单位(元)")))
+                ],
+              )),
+          SizedBox(height: 16),
+          SizedBox(
+              height: 48,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      obscureText: false,
+                      //是否是密码
+                      controller: timeController,
+                      keyboardType: TextInputType.number,
+                      //数字输入
 
+//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
+                      decoration: InputDecoration(hintText: "输入贷款时间"),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  SizedBox(width: 80, child: DateDropDown(spnnerTimeControl))
+                ],
+              )),
+          SizedBox(height: 16),
+          SizedBox(
+              height: 48,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      obscureText: false,
+                      //是否是密码
+                      controller: rateController,
+                      keyboardType: TextInputType.number,
+                      //数字输入
 
-                ),
+//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
+                      decoration: InputDecoration(hintText: "利率(%)"),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  SizedBox(width: 80, child: RateDropDown(spnnerRateCtrl)),
+                ],
+              )),
+          SizedBox(height: 16),
+          GestureDetector(
+            child: SizedBox(
+                height: 48,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                        width: 60,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("总利息:",
+                                style: TextStyle(color: Colors.black45)))),
+                    Expanded(
+                      child: TextField(
+                        obscureText: false,
+                        //是否是密码
 
-                onTapUp: checkAndCalc,
+                        keyboardType: TextInputType.number,
+                        //数字输入
+                        enabled: isCanInputRateMomey,
+
+//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
+                        decoration: InputDecoration(
+                            hintText: "利息", labelText: "$rateMoney"),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    SizedBox(width: 80, child: Center(child: Text(" 单位(元)")))
+                  ],
+                )),
+            onLongPress: () {
+              print(("长按事件"));
+              setState(() {
+                isCanInputRateMomey = true;
+              });
+            },
+          ),
+          SizedBox(height: 16),
+          GestureDetector(
+            child: Container(
+              color: Colors.deepOrange,
+              child: SizedBox(
+                width: 200,
+                height: 56,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "计算",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    )),
               ),
-
-              SizedBox(height: 16),
-              SizedBox(height: 150,child: SingleChildScrollView(child:  Text("$displayDetail")))
-
-            ]),
+            ),
+            onTapUp: checkAndCalc,
+          ),
+          SizedBox(height: 16),
+          SizedBox(
+              height: 150,
+              child: SingleChildScrollView(child: Text("$displayDetail")))
+        ]),
       ),
     );
   }
