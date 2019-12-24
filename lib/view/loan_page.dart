@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loan_calc/utils/ToastUtils.dart';
 import 'package:loan_calc/view/date_drop_down.dart';
 import 'package:loan_calc/view/rate_drop_down.dart';
+import 'package:loan_calc/ctrl/SpnnerControl.dart';
+import 'package:loan_calc/member/LoanInfo.dart';
+import 'package:loan_calc/utils/calc.dart';
 
 class LoanActivity extends StatelessWidget {
   @override
@@ -36,8 +40,69 @@ class _MyLoadPageState extends State<MyLoadPage> {
   final TextEditingController _money_controller = new TextEditingController();
   final TextEditingController _time_controller = new TextEditingController();
   final TextEditingController _rate_controller = new TextEditingController();
+
+  SpnnerControl _time_control=new SpnnerControl();
+  SpnnerControl _rate_ctrl=new SpnnerControl();
+
   bool isCanInputRateMomey = false;
   double rateMoney = 0;
+
+  void checkAndCalc(TapUpDetails details) {
+    if (_money_controller.text.isEmpty) {
+      showTaost("金额不能为空");
+      return null;
+    }
+
+    if(_time_controller.text.isEmpty){
+      showTaost("时间不能为空");
+      return null;
+    }
+
+    if(_rate_controller.text.isEmpty){
+      showTaost("利息不能为空");
+      return null;
+    }
+
+    double money=double.parse(_money_controller.text);
+
+    int time=int.parse(_time_controller.text);
+
+    double rate=double.parse(_rate_controller.text);
+
+
+    int rateType=RATE.YEAR;
+
+
+    int timeType=TIME.YEAR;
+
+    if("月"==_rate_ctrl.value){
+      timeType=TIME.MONTH;
+    }else if("日" == _rate_ctrl.value){
+      timeType=TIME.DAY;
+    }else{
+      timeType=TIME.YEAR;
+    }
+
+    if("月息"==_rate_ctrl.value){
+      rateType=RATE.MONTH;
+    }else if("日息" == _rate_ctrl.value){
+      rateType=RATE.DAY;
+    }else{
+      rateType=RATE.YEAR;
+    }
+
+
+    LoandInfo info=calc(money, rate, time, rateType, timeType);
+
+    setState(() {
+      rateMoney=info.interestTotal;
+    });
+
+
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +156,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      SizedBox(width: 80, child: DateDropDown())
+                      SizedBox(width: 80, child: DateDropDown(_time_control))
                     ],
                   )),
               SizedBox(height: 16),
@@ -112,7 +177,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      SizedBox(width: 80, child: RateDropDown()),
+                      SizedBox(width: 80, child: RateDropDown(_rate_ctrl)),
                     ],
                   )),
               SizedBox(height: 16),
@@ -147,18 +212,25 @@ class _MyLoadPageState extends State<MyLoadPage> {
                 },
               ),
               SizedBox(height: 16),
-              Container(
-                  color: Colors.deepOrange,
-                  child: SizedBox(
-                    width: 200,
-                    height: 56,
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "计算",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        )),
-                  ))
+              GestureDetector(
+                child: Container(
+                    color: Colors.deepOrange,
+                    child: SizedBox(
+                      width: 200,
+                      height: 56,
+                      child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            "计算",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          )),
+                    ),
+
+
+                ),
+
+                onTapUp: checkAndCalc,
+              ),
             ]),
       ),
     );

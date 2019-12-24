@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:loan_calc/ctrl/SpnnerControl.dart';
 
 class DateDropDown extends StatefulWidget {
-  _DateDropDownState createState() => _DateDropDownState();
+
+
+  SpnnerControl control;
+
+  DateDropDown( this.control);
+
+  _DateDropDownState createState() => _DateDropDownState(control);
+
 }
 
 class _DateDropDownState extends State<DateDropDown> {
   List<String> spinnerItems = ["年", "月", "日"];
+  SpnnerControl control;
+
+
+  _DateDropDownState(this.control);
 
   String dropDownValue;
 
@@ -13,6 +25,7 @@ class _DateDropDownState extends State<DateDropDown> {
   void initState() {
     super.initState();
     dropDownValue = spinnerItems[0];
+    control.value=spinnerItems[0];
   }
 
   @override
@@ -35,6 +48,7 @@ class _DateDropDownState extends State<DateDropDown> {
             onChanged: (String data) {
               setState(() {
                 dropDownValue = data;
+                control.value=spinnerItems[0];
               });
             },
             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {

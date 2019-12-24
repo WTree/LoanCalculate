@@ -1,0 +1,9 @@
+
+class SpnnerControl{
+
+
+  String value;
+
+
+
+}

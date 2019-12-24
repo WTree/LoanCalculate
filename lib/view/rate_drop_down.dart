@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:loan_calc/ctrl/SpnnerControl.dart';
 
 class RateDropDown extends StatefulWidget {
-  _RateDropDownState createState() => _RateDropDownState();
+
+  SpnnerControl control;
+
+  RateDropDown(this.control);
+
+  _RateDropDownState createState() => _RateDropDownState(control);
 }
 
 class _RateDropDownState extends State<RateDropDown> {
+  SpnnerControl control;
+
+  _RateDropDownState(this.control);
+
   List<String> spinnerItems = ["年息", "月息", "日息"];
 
   String dropDownValue;
@@ -13,6 +23,7 @@ class _RateDropDownState extends State<RateDropDown> {
   void initState() {
     super.initState();
     dropDownValue = spinnerItems[0];
+    control.value=dropDownValue;
   }
 
   @override
@@ -35,6 +46,7 @@ class _RateDropDownState extends State<RateDropDown> {
             onChanged: (String data) {
               setState(() {
                 dropDownValue = data;
+                control.value=dropDownValue;
               });
             },
             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {
