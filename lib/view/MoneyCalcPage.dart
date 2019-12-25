@@ -6,8 +6,9 @@ import 'package:loan_calc/member/LoanInfo.dart';
 import 'package:loan_calc/utils/ToastUtils.dart';
 import 'package:loan_calc/utils/Utils.dart';
 import 'package:loan_calc/utils/calc.dart';
-import 'package:loan_calc/view/date_drop_down.dart';
-import 'package:loan_calc/view/rate_drop_down.dart';
+import 'package:loan_calc/view/rate_money_drop_down.dart';
+
+
 class MoneyCalcPage extends StatefulWidget{
 
   MoneyCalcPage({Key key}) : super(key: key);
@@ -22,7 +23,6 @@ class _MoneyCalcPageState extends State<MoneyCalcPage> {
   final TextEditingController moneyController = new TextEditingController();
   final TextEditingController rateController = new TextEditingController();
 
-  SpnnerControl spnnerTimeControl = new SpnnerControl();
   SpnnerControl spnnerRateCtrl = new SpnnerControl();
 
   bool isCanInputRateMomey = false;
@@ -60,13 +60,7 @@ class _MoneyCalcPageState extends State<MoneyCalcPage> {
 
     int timeType = TIME.YEAR;
 
-    if ("月" == spnnerTimeControl.value) {
-      timeType = TIME.MONTH;
-    } else if ("日" == spnnerTimeControl.value) {
-      timeType = TIME.DAY;
-    } else {
-      timeType = TIME.YEAR;
-    }
+
 
     if ("月息" == spnnerRateCtrl.value) {
       rateType = RATE.MONTH;
@@ -75,6 +69,11 @@ class _MoneyCalcPageState extends State<MoneyCalcPage> {
     } else {
       rateType = RATE.YEAR;
     }
+    LoandInfo info=calcRate(money, rate, rateType);
+    setState(() {
+      rateMoney = info.interestTotal;
+      displayDetail = info.toString();
+    });
 
   }
 
@@ -128,7 +127,7 @@ class _MoneyCalcPageState extends State<MoneyCalcPage> {
                     ),
                   ),
                   SizedBox(width: 10),
-                  SizedBox(width: 80, child: RateDropDown(spnnerRateCtrl)),
+                  SizedBox(width: 80, child: RateMoneyDropDown(spnnerRateCtrl)),
                 ],
               )),
           SizedBox(height: 16),

@@ -3,6 +3,53 @@
 
 import 'package:loan_calc/member/LoanInfo.dart';
 
+
+
+LoandInfo calcRate(double money,double rateMoney,int rateType){
+
+  LoandInfo info=new LoandInfo();
+
+  info.baseMoney=money;
+
+  double rate=rateMoney/money;
+  switch(rateType){
+
+    case RATE.DAY:{
+
+      info.interestDay=rateMoney;
+      info.interestMonth=rateMoney*30;
+      info.interestYear=rateMoney*365;
+      info.yearRate=rate*365;
+
+      break;
+    }
+
+    case RATE.MONTH:{
+      info.interestDay=rateMoney/30;
+      info.interestMonth=rateMoney;
+      info.interestYear=rateMoney*12;
+      info.yearRate=rate*12;
+
+      break;
+    }
+
+    case RATE.YEAR:{
+      info.interestDay=rateMoney/365;
+      info.interestMonth=rateMoney/12;
+      info.interestYear=rateMoney;
+      info.yearRate=rate;
+      break;
+    }
+  }
+
+
+  return info;
+
+
+}
+
+
+
 LoandInfo calc(double money,double rate,int time,int rateType,int timeType){
 
   LoandInfo info=new LoandInfo();
