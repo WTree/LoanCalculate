@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:loan_calc/view/loan_page.dart';
-void main() => runApp(LoanActivity());
+
+import 'package:loan_calc/view/test_page.dart';
+void main() => runApp(TestActivity());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

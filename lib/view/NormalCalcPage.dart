@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loan_calc/ctrl/SpnnerControl.dart';
@@ -7,42 +8,17 @@ import 'package:loan_calc/utils/Utils.dart';
 import 'package:loan_calc/utils/calc.dart';
 import 'package:loan_calc/view/date_drop_down.dart';
 import 'package:loan_calc/view/rate_drop_down.dart';
+class NormalCalcPage extends StatefulWidget{
 
-class LoanActivity extends StatelessWidget {
-
-  bool isOK=false;
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      title: '贷款计算器',
-
-
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyLoadPage(title: "贷款计算器"),
-    );
-
-  }
-}
-
-class MyLoadPage extends StatefulWidget {
-  final String title;
-
-  MyLoadPage({Key key, this.title}) : super(key: key);
+  NormalCalcPage({Key key}) : super(key: key);
 
   @override
-  _MyLoadPageState createState() => _MyLoadPageState();
+  _NormalCalcPageState createState() => _NormalCalcPageState();
+
 }
 
-/*
 
-
-
- */
-
-class _MyLoadPageState extends State<MyLoadPage> {
+class _NormalCalcPageState extends State<NormalCalcPage> {
   final TextEditingController moneyController = new TextEditingController();
   final TextEditingController timeController = new TextEditingController();
   final TextEditingController rateController = new TextEditingController();
@@ -118,22 +94,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
 
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-        actions: <Widget>[
-
-         Switch(value: isNormal,onChanged:(value){
-            setState(() {
-
-              isNormal=value;
-            });
-         })
-
-        ],
-      ),
       body:
 
 
@@ -212,15 +173,15 @@ class _MyLoadPageState extends State<MyLoadPage> {
                     SizedBox(
                         width: 60,
                         child: GestureDetector(
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text("总利息:",
-                                    style: TextStyle(color: Colors.black45))),
-                          
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("总利息:",
+                                  style: TextStyle(color: Colors.black45))),
+
                           onLongPress: (){
-                              showTaost("长按");
+                            showTaost("长按");
                           },
-                                
+
                         )),
                     Expanded(
                       child: TextField(

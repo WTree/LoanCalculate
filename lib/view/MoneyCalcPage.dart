@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:loan_calc/ctrl/SpnnerControl.dart';
@@ -7,44 +8,18 @@ import 'package:loan_calc/utils/Utils.dart';
 import 'package:loan_calc/utils/calc.dart';
 import 'package:loan_calc/view/date_drop_down.dart';
 import 'package:loan_calc/view/rate_drop_down.dart';
+class MoneyCalcPage extends StatefulWidget{
 
-class LoanActivity extends StatelessWidget {
-
-  bool isOK=false;
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      title: '贷款计算器',
-
-
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyLoadPage(title: "贷款计算器"),
-    );
-
-  }
-}
-
-class MyLoadPage extends StatefulWidget {
-  final String title;
-
-  MyLoadPage({Key key, this.title}) : super(key: key);
+  MoneyCalcPage({Key key}) : super(key: key);
 
   @override
-  _MyLoadPageState createState() => _MyLoadPageState();
+  _MoneyCalcPageState createState() => _MoneyCalcPageState();
+
 }
 
-/*
 
-
-
- */
-
-class _MyLoadPageState extends State<MyLoadPage> {
+class _MoneyCalcPageState extends State<MoneyCalcPage> {
   final TextEditingController moneyController = new TextEditingController();
-  final TextEditingController timeController = new TextEditingController();
   final TextEditingController rateController = new TextEditingController();
 
   SpnnerControl spnnerTimeControl = new SpnnerControl();
@@ -70,10 +45,6 @@ class _MyLoadPageState extends State<MyLoadPage> {
       return null;
     }
 
-    if (timeController.text.isEmpty) {
-      showTaost("时间不能为空");
-      return null;
-    }
 
     if (rateController.text.isEmpty) {
       showTaost("利息不能为空");
@@ -82,7 +53,6 @@ class _MyLoadPageState extends State<MyLoadPage> {
 
     double money = double.parse(moneyController.text);
 
-    int time = int.parse(timeController.text);
 
     double rate = double.parse(rateController.text);
 
@@ -106,34 +76,13 @@ class _MyLoadPageState extends State<MyLoadPage> {
       rateType = RATE.YEAR;
     }
 
-    LoandInfo info = calc(money, rate, time, rateType, timeType);
-
-    setState(() {
-      rateMoney = info.interestTotal;
-      displayDetail = info.toString();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
 
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-        actions: <Widget>[
-
-         Switch(value: isNormal,onChanged:(value){
-            setState(() {
-
-              isNormal=value;
-            });
-         })
-
-        ],
-      ),
       body:
 
 
@@ -170,33 +119,12 @@ class _MyLoadPageState extends State<MyLoadPage> {
                     child: TextField(
                       obscureText: false,
                       //是否是密码
-                      controller: timeController,
-                      keyboardType: TextInputType.number,
-                      //数字输入
-
-//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                      decoration: InputDecoration(hintText: "输入贷款时间"),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  SizedBox(width: 80, child: DateDropDown(spnnerTimeControl))
-                ],
-              )),
-          SizedBox(height: 16),
-          SizedBox(
-              height: 48,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      obscureText: false,
-                      //是否是密码
                       controller: rateController,
                       keyboardType: TextInputType.number,
                       //数字输入
 
 //                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                      decoration: InputDecoration(hintText: "利率(%)"),
+                      decoration: InputDecoration(hintText: "需要的利息(元)"),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -204,56 +132,7 @@ class _MyLoadPageState extends State<MyLoadPage> {
                 ],
               )),
           SizedBox(height: 16),
-          GestureDetector(
-            child: SizedBox(
-                height: 48,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                        width: 60,
-                        child: GestureDetector(
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text("总利息:",
-                                    style: TextStyle(color: Colors.black45))),
-                          
-                          onLongPress: (){
-                              showTaost("长按");
-                          },
-                                
-                        )),
-                    Expanded(
-                      child: TextField(
-                        obscureText: false,
-                        //是否是密码
-                        autofocus: false,
 
-                        keyboardType: TextInputType.number,
-                        //数字输入
-                        enabled: isCanInputRateMomey,
-                        enableInteractiveSelection: false,
-
-//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                        decoration: InputDecoration(
-                            hintText: "利息", labelText: "$rateMoney"),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    SizedBox(width: 80, child: Center(child: Text(" 单位(元)")))
-                  ],
-                )),
-            onDoubleTap: () {
-              showTaost("onDoubleTap press");
-            },
-            onLongPress: () {
-              print(("长按事件"));
-              showTaost("long press");
-              setState(() {
-                isCanInputRateMomey = true;
-              });
-            },
-          ),
-          SizedBox(height: 16),
           GestureDetector(
             child: Container(
               color: Colors.deepOrange,
