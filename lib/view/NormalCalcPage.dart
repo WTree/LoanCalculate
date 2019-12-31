@@ -8,15 +8,13 @@ import 'package:loan_calc/utils/Utils.dart';
 import 'package:loan_calc/utils/calc.dart';
 import 'package:loan_calc/view/date_drop_down.dart';
 import 'package:loan_calc/view/rate_drop_down.dart';
-class NormalCalcPage extends StatefulWidget{
 
+class NormalCalcPage extends StatefulWidget {
   NormalCalcPage({Key key}) : super(key: key);
 
   @override
   _NormalCalcPageState createState() => _NormalCalcPageState();
-
 }
-
 
 class _NormalCalcPageState extends State<NormalCalcPage> {
   final TextEditingController moneyController = new TextEditingController();
@@ -30,7 +28,7 @@ class _NormalCalcPageState extends State<NormalCalcPage> {
   double rateMoney = 0;
   String displayDetail = "";
 
-  bool isNormal=false;
+  bool isNormal = false;
 
   @override
   void initState() {
@@ -93,15 +91,27 @@ class _NormalCalcPageState extends State<NormalCalcPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
+
+
+
+
+
     return Scaffold(
-
       body:
-
 
       Container(
         margin: EdgeInsets.only(left: 16, right: 16),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
             Widget>[
+          SizedBox(
+              height: 36,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "通过年化计算利息",
+                    style: TextStyle(color: Colors.black45),
+                  ))),
           SizedBox(
               height: 48,
               child: Row(
@@ -177,11 +187,9 @@ class _NormalCalcPageState extends State<NormalCalcPage> {
                               alignment: Alignment.centerLeft,
                               child: Text("总利息:",
                                   style: TextStyle(color: Colors.black45))),
-
-                          onLongPress: (){
+                          onLongPress: () {
                             showTaost("长按");
                           },
-
                         )),
                     Expanded(
                       child: TextField(

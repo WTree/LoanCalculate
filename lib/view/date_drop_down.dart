@@ -26,7 +26,7 @@ class _DateDropDownState extends State<DateDropDown> {
   void initState() {
     super.initState();
     dropDownValue = spinnerItems[0];
-    control.value=spinnerItems[0];
+    control.textValue=dropDownValue;
   }
 
   @override
@@ -49,7 +49,7 @@ class _DateDropDownState extends State<DateDropDown> {
             onChanged: (String data) {
               setState(() {
                 dropDownValue = data;
-                control.value=spinnerItems[0];
+                control.changeValue=spinnerItems[0];
               });
             },
             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {

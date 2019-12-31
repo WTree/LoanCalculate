@@ -6,16 +6,16 @@ import 'package:loan_calc/member/LoanInfo.dart';
 import 'package:loan_calc/utils/ToastUtils.dart';
 import 'package:loan_calc/utils/Utils.dart';
 import 'package:loan_calc/utils/calc.dart';
-import 'package:loan_calc/view/rate_money_drop_down.dart';
+import 'package:loan_calc/view/rate_reverse_drop_down.dart';
 
-class MoneyCalcPage extends StatefulWidget {
-  MoneyCalcPage({Key key}) : super(key: key);
+class MoneyCalcRealPage extends StatefulWidget {
+  MoneyCalcRealPage({Key key}) : super(key: key);
 
   @override
-  _MoneyCalcPageState createState() => _MoneyCalcPageState();
+  _MoneyCalcRealPageState createState() => _MoneyCalcRealPageState();
 }
 
-class _MoneyCalcPageState extends State<MoneyCalcPage>
+class _MoneyCalcRealPageState extends State<MoneyCalcRealPage>
     with AutomaticKeepAliveClientMixin {
   final TextEditingController moneyController = new TextEditingController();
   final TextEditingController rateController = new TextEditingController();
@@ -31,12 +31,18 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
+  String rateTypeStr="月供";
 
   @override
   void initState() {
     super.initState();
 
-    rateController.addListener(() {});
+    spnnerRateCtrl.addListener(() {
+
+      setState(() {
+        rateTypeStr=rateController.value.toString();
+      });
+    });
   }
 
   void checkAndCalc(TapUpDetails details) {
@@ -80,13 +86,13 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16),
       child:
-          Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         SizedBox(
             height: 36,
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "通过利息计算年化",
+                  "真实利息计算年化",
                   style: TextStyle(color: Colors.black45),
                 ))),
         SizedBox(
@@ -123,11 +129,11 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
                     //数字输入
 
 //                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
-                    decoration: InputDecoration(hintText: "需要的利息(元)"),
+                    decoration: InputDecoration(hintText: "$rateTypeStr (元)"),
                   ),
                 ),
                 SizedBox(width: 10),
-                SizedBox(width: 80, child: RateMoneyDropDown(spnnerRateCtrl)),
+                SizedBox(width: 80, child: RateReverseDropDown(spnnerRateCtrl)),
               ],
             )),
         SizedBox(height: 16),

@@ -48,6 +48,26 @@ LoandInfo calcRate(double money,double rateMoney,int rateType){
 
 }
 
+//具体算法没有找到,只能通过极限求值法来解决，
+
+ calcRateHight(double totalMoney,double avaMoney,int time,int rateType) async{
+
+
+  double avaLocalMoney=avaMoney-totalMoney/time;
+
+  LoandInfo info=calcRate(totalMoney, avaLocalMoney, rateType);
+
+
+
+
+
+
+
+
+  return info;
+
+}
+
 
 
 LoandInfo calc(double money,double rate,int time,int rateType,int timeType){

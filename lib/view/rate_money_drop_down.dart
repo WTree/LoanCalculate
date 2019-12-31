@@ -24,7 +24,7 @@ class _RateMoneyDropDownState extends State<RateMoneyDropDown> {
   void initState() {
     super.initState();
     dropDownValue = spinnerItems[0];
-    control.value=dropDownValue;
+    control.textValue=dropDownValue;
   }
 
   @override
@@ -47,7 +47,7 @@ class _RateMoneyDropDownState extends State<RateMoneyDropDown> {
             onChanged: (String data) {
               setState(() {
                 dropDownValue = data;
-                control.value=dropDownValue;
+                control.changeValue=dropDownValue;
               });
             },
             items: spinnerItems.map<DropdownMenuItem<String>>((String value) {

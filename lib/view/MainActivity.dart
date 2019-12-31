@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:loan_calc/ctrl/SpnnerControl.dart';
-import 'package:loan_calc/member/LoanInfo.dart';
-import 'package:loan_calc/utils/ToastUtils.dart';
-import 'package:loan_calc/utils/Utils.dart';
-import 'package:loan_calc/utils/calc.dart';
-import 'package:loan_calc/view/MoneyCalcPage.dart';
 import 'package:loan_calc/view/NormalCalcPage.dart';
-import 'package:loan_calc/view/date_drop_down.dart';
-import 'package:loan_calc/view/rate_drop_down.dart';
-import 'package:loan_calc/view/loan_page.dart';
+import 'package:loan_calc/view/RateParent.dart';
 
-class TestActivity extends StatelessWidget {
+class MainActivity extends StatelessWidget {
+  bool isOK = false;
 
-  bool isOK=false;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
       title: '贷款计算器',
-
-
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: MyLoadPage(title: "贷款计算器"),
     );
-
   }
 }
 
@@ -45,16 +33,28 @@ class MyLoadPage extends StatefulWidget {
 
  */
 
-class _MyLoadPageState extends State<MyLoadPage> {
+class _MyLoadPageState extends State<MyLoadPage>
+    with AutomaticKeepAliveClientMixin {
+  List<Widget> pages ;
+  bool isMore = false;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-  bool isNormal=false;
+    if(pages==null){
+      pages = [NormalCalcPage(), RateParentPage()];
+    }
+  }
 
-
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
@@ -62,19 +62,16 @@ class _MyLoadPageState extends State<MyLoadPage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
         actions: <Widget>[
-
-         Switch(value: isNormal,onChanged:(value){
-            setState(() {
-
-              isNormal=value;
-            });
-         })
-
+          Switch(
+              value: isMore,
+              onChanged: (value) {
+                setState(() {
+                  isMore = value;
+                });
+              })
         ],
       ),
-      body:
-
-      !isNormal?NormalCalcPage():MoneyCalcPage(),
+      body: !isMore ? pages[0] : pages[1],
     );
   }
 }

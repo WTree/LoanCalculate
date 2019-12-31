@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:loan_calc/ctrl/SpnnerControl.dart';
 
-class RateDropDown extends StatefulWidget {
+class RateReverseDropDown extends StatefulWidget {
 
  final SpnnerControl control;
 
 
-  RateDropDown(this.control);
+ RateReverseDropDown(this.control);
 
-  _RateDropDownState createState() => _RateDropDownState(control);
+ _RateReverseDropDownState createState() => _RateReverseDropDownState(control);
 }
 
-class _RateDropDownState extends State<RateDropDown> {
+class _RateReverseDropDownState extends State<RateReverseDropDown> {
   SpnnerControl control;
 
-  _RateDropDownState(this.control);
+  _RateReverseDropDownState(this.control);
 
-  List<String> spinnerItems = ["年息", "月息", "日息"];
+  List<String> spinnerItems = ["月供","日供"];
 
   String dropDownValue;
 
