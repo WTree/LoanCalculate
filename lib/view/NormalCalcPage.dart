@@ -60,6 +60,21 @@ class _NormalCalcPageState extends State<NormalCalcPage> {
 
     double rate = double.parse(rateController.text);
 
+    if (money == 0) {
+      showTaost("金额不能为0");
+      return null;
+    }
+
+    if (rate == 0) {
+      showTaost("利息不能为0");
+      return null;
+    }
+
+    if (time == 0) {
+      showTaost("时间不能为0");
+      return null;
+    }
+
     int rateType = RATE.YEAR;
 
     int timeType = TIME.YEAR;
@@ -92,26 +107,21 @@ class _NormalCalcPageState extends State<NormalCalcPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-
-
-
-
-
     return Scaffold(
-      body:
-
-      Container(
+      body: Container(
         margin: EdgeInsets.only(left: 16, right: 16),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
             Widget>[
           SizedBox(
               height: 36,
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "通过年化计算利息",
-                    style: TextStyle(color: Colors.black45),
-                  ))),
+              child: Container(
+                  color: Colors.black12,
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "通过年化计算利息",
+                        style: TextStyle(color: Colors.black45),
+                      )))),
           SizedBox(
               height: 48,
               child: Row(

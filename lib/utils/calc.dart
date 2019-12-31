@@ -1,9 +1,9 @@
 
 
-
 import 'package:loan_calc/member/LoanInfo.dart';
 
-
+import 'dart:math';
+import 'package:loan_calc/utils/Utils.dart';
 
 LoandInfo calcRate(double money,double rateMoney,int rateType){
 
@@ -57,14 +57,47 @@ LoandInfo calcRate(double money,double rateMoney,int rateType){
 
   LoandInfo info=calcRate(totalMoney, avaLocalMoney, rateType);
 
+  double rateYear=0.0;
+
+
+  if(rateType==RATE.MONTH){
+
+    var rate=await calcRateImpl(totalMoney, avaMoney, time, info.yearRate/12);
+    rateYear=rate*12;
+
+
+  }else{
+    var rate=await calcRateImpl(totalMoney, avaMoney, time, info.yearRate/365);
+    rateYear=rate*365;
+  }
+
+  return rateYear;
+
+}
+
+//in thread
+ calcRateImpl(double totalMoney,double avaMoney,int number,double startRate) async{
 
 
 
+  int t1=Utils.currentTimeMillis();
+//  var rate=(startRate-3)<0?0:(startRate-3);
+   double rate=startRate;
+  double temp=0.0;
+   double stage=0.0001;
 
+  do{
+    temp=caclAverageMoney(totalMoney, rate, number);
+    if(temp>avaMoney){
+      break;
+    }
+    rate+=stage;
+  }while(((temp-avaMoney).abs()>0.5));
 
+   int t2=Utils.currentTimeMillis();
 
-
-  return info;
+   print("eat time:"+(t2-t1).toString());
+  return rate;
 
 }
 
@@ -114,4 +147,14 @@ LoandInfo calc(double money,double rate,int time,int rateType,int timeType){
   return info;
 
 
+}
+
+
+
+double caclAverageMoney(double totalMoney,double rate,int number){
+  double result= 0.0;
+
+  result = (totalMoney * (rate * pow((1 + rate), number.toDouble()))) / (pow((1 + rate), number.toDouble()) - 1);
+
+  return result;
 }

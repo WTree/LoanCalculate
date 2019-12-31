@@ -55,8 +55,17 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
 
     double rate = double.parse(rateController.text);
 
-    int rateType = RATE.YEAR;
+    if (money == 0) {
+      showTaost("金额不能为0");
+      return null;
+    }
 
+    if (rate == 0) {
+      showTaost("利息不能为0");
+      return null;
+    }
+
+    int rateType = RATE.YEAR;
 
     if ("月息" == spnnerRateCtrl.value) {
       rateType = RATE.MONTH;
@@ -82,13 +91,16 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         SizedBox(
-            height: 36,
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "通过利息计算年化",
-                  style: TextStyle(color: Colors.black45),
-                ))),
+          height: 36,
+          child: Container(
+            color: Colors.black12,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "通过利息计算年化(主要还是用于理财)",
+                    style: TextStyle(color: Colors.black45),
+                  ))),
+        ),
         SizedBox(
             height: 48,
             child: Row(
@@ -121,8 +133,6 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
                     controller: rateController,
                     keyboardType: TextInputType.number,
                     //数字输入
-
-//                          inputFormatters:[WhitelistingTextInputFormatter.digitsOnly] ,
                     decoration: InputDecoration(hintText: "需要的利息(元)"),
                   ),
                 ),
@@ -153,6 +163,5 @@ class _MoneyCalcPageState extends State<MoneyCalcPage>
             child: SingleChildScrollView(child: Text("$displayDetail")))
       ]),
     );
-
   }
 }

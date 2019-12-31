@@ -19,4 +19,8 @@ class Utils{
     FocusScope.of(context).requestFocus(FocusNode());
   }
 
+    static int currentTimeMillis() {
+      return new DateTime.now().millisecondsSinceEpoch;
+    }
+
 }

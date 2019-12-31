@@ -31,23 +31,18 @@ class _RateParentPageState extends State<RateParentPage>
     super.initState();
 
     spnnerRateCtrl.addListener(changeUI);
-
-
   }
 
-  void changeUI(){
-
-    if("先息后金"==spnnerRateCtrl.value){
-
-        setState(() {
-          isNormal=false;
-        });
-    }else{
+  void changeUI() {
+    if ("先息后金" == spnnerRateCtrl.value) {
       setState(() {
-        isNormal=true;
+        isNormal = false;
+      });
+    } else {
+      setState(() {
+        isNormal = true;
       });
     }
-
   }
 
   @override
@@ -55,19 +50,18 @@ class _RateParentPageState extends State<RateParentPage>
     // TODO: implement build
     super.build(context); //不然 状态不能保存
 
-
-    return Scaffold(
-      body:Column(
-        children: <Widget>[
-          SizedBox(
-              height: 50,
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 50,
+          child: Container(
               child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RateDropDownParent(spnnerRateCtrl))),
-          !isNormal ? MoneyCalcPage() : MoneyCalcRealPage()
-        ],
-      ) ,
+                alignment: Alignment.centerLeft,
+                child: SizedBox(width: 150,child: RateDropDownParent(spnnerRateCtrl)) ,
+              )),
+        ),
+        !isNormal ? MoneyCalcPage() : MoneyCalcRealPage()
+      ],
     );
-
   }
 }
